@@ -6,8 +6,9 @@
  * {{comment|sanitize}}
  */
 Mark.pipes.sanitize = function (str) {
-    var input = "<>&\"'\/";
-    var output = ["&lt;", "&gt;", "&amp;", "&quot;", "&#39;", "&#x2F;"];
+    var input = "<|>|&|\"|'|\/";
+    // the easiest way is just to add empty elements here so the input <-> output matching is still working as is
+    var output = ["&lt;", "", "&gt;", "", "&amp;", "", "&quot;", "", "&#39;", "", "&#x2F;"];
 
     return str.replace(new RegExp(input, "g"), function (s) {
         return output[input.indexOf(s)];
