@@ -1,5 +1,8 @@
 describe("Extra string filters", function() {
     describe("should contain", function() {
+
+        // SANITIZE FILTER
+
         // currently sanitized chars and their replacements
         //   <   is replaced by   &lt;
         //   >   is replaced by   &gt;
@@ -46,6 +49,28 @@ describe("Extra string filters", function() {
             "when <a href='/' onmouseover='alert(\"bad\")'>link</a> given", function() {
                 expect(Mark.pipes.sanitize('<a href=\'/\' onmouseover=\'alert("bad")\'>link</a>'))
                     .toBe('&lt;a href=&#39;&#x2F;&#39; onmouseover=&#39;alert(&quot;bad&quot;)&#39;&gt;link&lt;&#x2F;a&gt;');
+            });
+        });
+
+        // STR_REPLACE FILTER
+
+        it("a str_replace filter", function() {
+            expect(typeof Mark.pipes.str_replace).toBe("function");
+        });
+
+        describe("that can replace a string with another string", function() {
+            var testString = 'This is a :foo: teststring with #different# placeholders and 2000 numbers';
+
+            it("should replace :foo with bar", function() {
+                expect(Mark.pipes.str_replace(testString, ':foo', 'bar')).toBe(testString.replace(':foo', 'bar'));
+            });
+
+            it("should replace #different# with no", function() {
+                expect(Mark.pipes.str_replace(testString, '#different#', 'no')).toBe(testString.replace('#different#', 'no'));
+            });
+
+            it("should replace 2000 with 0", function() {
+                expect(Mark.pipes.str_replace(testString, '2000', '0')).toBe(testString.replace('2000', '0'));
             });
         });
     });

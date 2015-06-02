@@ -140,3 +140,14 @@ Mark.pipes.inject = function (str) {
 Mark.pipes.highlight = function (str, pattern) {
     return str.replace(new RegExp("(" + pattern + ")", "g"), "<em>$1</em>");
 };
+
+/*
+ * Replace a string with another string.
+ *
+ * Example:
+ *
+ * {{article|str_replace>identifier>replacement}}
+ */
+Mark.pipes.str_replace = function(str, identifier, replacement) {
+    return str.replace(identifier, replacement);
+};
