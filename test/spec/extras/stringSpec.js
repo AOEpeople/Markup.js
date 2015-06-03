@@ -73,8 +73,8 @@ describe("Extra string filters", function() {
                 expect(Mark.pipes.str_replace(testString, '2000', '0')).toBe(testString.replace('2000', '0'));
             });
 
-            it("should just returns the input if the needle cannot be found", function() {
-                expect(Mark.pipes.str_replace(testString, 'nonexistingneedle', 'bar')).toBe(testString.replace('nonexistingneedle', 'bar'));
+            it("should just return the input if the needle cannot be found", function() {
+                expect(Mark.pipes.str_replace(testString, 'nonexistingneedle', 'bar')).toBe(testString);
             });
         });
 
@@ -93,8 +93,8 @@ describe("Extra string filters", function() {
                 expect(Mark.pipes.str_replace(testString, '2000', '0', true)).toBe(testString.replace(/2000/g, '0'));
             });
 
-            it("should just returns the input if the needle cannot be found", function() {
-                expect(Mark.pipes.str_replace(testString, 'nonexistingneedle', 'bar', true)).toBe(testString.replace(/nonexistingneedle/g, 'bar'));
+            it("should just return the input if the needle cannot be found", function() {
+                expect(Mark.pipes.str_replace(testString, 'nonexistingneedle', 'bar', true)).toBe(testString);
             });
         });
     });
