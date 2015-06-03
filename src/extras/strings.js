@@ -148,6 +148,9 @@ Mark.pipes.highlight = function (str, pattern) {
  *
  * {{article|str_replace>identifier>replacement}}
  */
-Mark.pipes.str_replace = function(str, identifier, replacement) {
+Mark.pipes.str_replace = function(str, identifier, replacement, greedy) {
+    if (greedy) {
+        return str.replace(new RegExp(identifier, 'g'), replacement);
+    }
     return str.replace(identifier, replacement);
 };

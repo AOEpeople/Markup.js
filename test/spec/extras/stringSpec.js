@@ -72,6 +72,30 @@ describe("Extra string filters", function() {
             it("should replace 2000 with 0", function() {
                 expect(Mark.pipes.str_replace(testString, '2000', '0')).toBe(testString.replace('2000', '0'));
             });
+
+            it("should just returns the input if the needle cannot be found", function() {
+                expect(Mark.pipes.str_replace(testString, 'nonexistingneedle', 'bar')).toBe(testString.replace('nonexistingneedle', 'bar'));
+            });
+        });
+
+        describe("that can replace multiple strings with another string", function() {
+            var testString = 'This 2000 is #different# a :foo teststring 2000 with #different# placeholders :foo 2000 numbers #different#';
+
+            it("should replace :foo with bar two times", function() {
+                expect(Mark.pipes.str_replace(testString, ':foo', 'bar', true)).toBe(testString.replace(/:foo/g, 'bar'));
+            });
+
+            it("should replace #different# with no three times", function() {
+                expect(Mark.pipes.str_replace(testString, '#different#', 'no', true)).toBe(testString.replace(/#different#/g, 'no'));
+            });
+
+            it("should replace 2000 with 0 three times", function() {
+                expect(Mark.pipes.str_replace(testString, '2000', '0', true)).toBe(testString.replace(/2000/g, '0'));
+            });
+
+            it("should just returns the input if the needle cannot be found", function() {
+                expect(Mark.pipes.str_replace(testString, 'nonexistingneedle', 'bar', true)).toBe(testString.replace(/nonexistingneedle/g, 'bar'));
+            });
         });
     });
 });
