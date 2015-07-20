@@ -123,3 +123,21 @@ Mark.pipes.alpha = function (arr, prop) {
 
     return a;
 };
+
+/*
+ * Chunk array by given value
+ *
+ * Example:
+ *
+ * {{items|chunk>6}}
+ *
+ */
+Mark.pipes.chunk = function(arr, val) {
+    var a = [], i = 0, n = arr.length;
+
+    while (i < n) {
+        a.push(arr.slice(i, i += val));
+    }
+    return a;
+};
+
