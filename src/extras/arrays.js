@@ -133,10 +133,10 @@ Mark.pipes.alpha = function (arr, prop) {
  *
  */
 Mark.pipes.chunk = function(arr, val) {
-    var a = [], i = 0, n = arr.length;
+    var a = [], i = 0, n = arr.length, sEnd = parseInt(val);
 
     while (i < n) {
-        a.push(arr.slice(i, i += val));
+        a.push(arr.slice(i, i += sEnd));
     }
     return a;
 };
