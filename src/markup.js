@@ -462,6 +462,131 @@ Mark.pipes = {
     log: function (obj) {
         console.log(obj);
         return obj;
+    },
+    has: function (arr, prop, val) {
+        return arr.some(function (item) {
+            return item[prop] == val;
+        });
+    },
+    sift: function (arr, prop, val) {
+        return arr.filter(function (item) {
+            return item[prop] == val;
+        });
+    },
+    rand: function (arr, n) {
+        var copy = Mark._copy(arr).sort(function (a, b) {
+            return Math.random() > 0.5 ? 1 : -1;
+        });
+
+        return copy.slice(0, n || 1);
+    },
+    groupby: function (arr, prop) {
+        var a = [], b = [], i, j, k;
+
+        for (i = 0; i < arr.length; i++) {
+            j = arr[i][prop];
+            if (a.indexOf(j) === -1) {
+                a.push(j);
+                b.push({ items:[] });
+            }
+        }
+
+        for (i = 0; i < arr.length; i++) {
+            j = arr[i][prop];
+            k = a.indexOf(j);
+            b[k].key = j;
+            b[k].items.push(arr[i]);
+        }
+
+        return b;
+    },
+    alpha: function (arr, prop) {
+        var a = [], b = "", i, j;
+
+        for (i = 0; i < arr.length; i++) {
+            j = arr[i][prop].charAt(0).toUpperCase();
+
+            if (b.indexOf(j) === -1) {
+                b += j;
+                a[b.indexOf(j)] = { key: j, items: [] };
+            }
+
+            a[b.indexOf(j)].items.push(arr[i]);
+        }
+
+        for (i = 0; i < a.length; i++) {
+            a[i].items.sort(function (a, b) {
+                return a[prop] > b[prop] ? 1 : -1;
+            });
+        }
+
+        return a;
+    },
+    chunk: function(arr, val) {
+        var a = [], i = 0, n = arr.length, sEnd = parseInt(val);
+
+        while (i < n) {
+            a.push(arr.slice(i, i += sEnd));
+        }
+        return a;
+    },
+    sanitize: function (str) {
+        var input = "<|>|&|\"|'|\/";
+        // the easiest way is just to add empty elements here so the input <-> output matching is still working as is
+        var output = ["&lt;", "", "&gt;", "", "&amp;", "", "&quot;", "", "&#39;", "", "&#x2F;"];
+
+        return str.replace(new RegExp(input, "g"), function (s) {
+            return output[input.indexOf(s)];
+        });
+    },
+    headline: function (str) {
+        var exclude = "a,an,the,for,to,of,on,as,in,and,from".split(",");
+
+        return str.replace(/\b\w+/g, function (s, i) {
+            if (exclude.indexOf(s) > -1 && i > 0) {
+                return s;
+            }
+            return s.charAt(0).toUpperCase() + s.slice(1);
+        });
+    },
+    repeat: function (str, count, separator) {
+        return new Array(+count || 2).join(str + (separator || "")) + str;
+    },
+    bust: function (url) {
+        return url + (url.indexOf("?") > -1 ? "&" : "?") + "cache=" + (+new Date());
+    },
+    breaklines: function (str) {
+        return str.replace(/\n/g, "<br>");
+    },
+    grafs: function (str) {
+        return str.replace(/(.+)/g, function (s, p1) {
+            return "<p>" + p1 + "</p>";
+        });
+    },
+    links: function (str) {
+        return str.replace(/\b(https?:[^\b\s]+)\b/g, "<a href=\"$1\">$1</a>");
+    },
+    tweet: function (str) {
+        return str.replace(/(@\w+)/g, "<a href=\"http://twitter.com/#!/$1\">$1</a>");
+    },
+    address: function (addr) {
+        return "<a href=\"http://maps.google.com/maps?q=" + encodeURI(addr) + ">" + addr + "</a>";
+    },
+    inject: function (str) {
+        var args = arguments;
+
+        return str.replace(/\[(\d+)\]/g, function (s, i) {
+            return args[+i + 1] || "";
+        });
+    },
+    highlight: function (str, pattern) {
+        return str.replace(new RegExp("(" + pattern + ")", "g"), "<em>$1</em>");
+    },
+    str_replace: function(str, identifier, replacement, greedy) {
+        if (greedy) {
+            return str.replace(new RegExp(identifier, 'g'), replacement);
+        }
+        return str.replace(identifier, replacement);
     }
 };
 
